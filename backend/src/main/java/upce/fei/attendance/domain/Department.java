@@ -26,8 +26,10 @@ public class Department {
     private Employee manager;
 
     @OneToMany(mappedBy = "department")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Employee> employeeList;
 
     @OneToMany(mappedBy = "department")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<AttendanceList> attendanceLists;
 }

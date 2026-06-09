@@ -19,12 +19,19 @@ public class AttendanceList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Month month;
+    
+    @Column(nullable = false)
+    private Integer year;
+    
     private Instant createdAt;
     private Boolean approved;
+    
+    @Column(columnDefinition = "TEXT")
     private String pdfData;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 }

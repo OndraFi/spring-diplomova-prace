@@ -5,6 +5,7 @@ import lombok.*;
 import upce.fei.attendance.enums.AttendanceType;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "attendance_record")
@@ -26,5 +27,8 @@ public class AttendanceRecord {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
+
+    @OneToMany(mappedBy = "attendanceRecord", cascade = CascadeType.ALL)
+    private List<BreakRecord> breaks;
 
 }

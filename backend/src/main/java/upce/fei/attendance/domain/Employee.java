@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import upce.fei.attendance.enums.Role;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,7 +31,16 @@ public class Employee implements UserDetails {
     @NonNull
     private String passwordHash;
 
+    private String cardId;
+
+    private Double earnedVacationHours;
+    private Double usedVacationHours;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<AttendanceRecord> attendanceRecords;
 
     @OneToOne
@@ -37,11 +48,12 @@ public class Employee implements UserDetails {
     private Contract contract;
 
     @ManyToOne
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Department department;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
